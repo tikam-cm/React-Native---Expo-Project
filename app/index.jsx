@@ -1,58 +1,69 @@
-import React from "react";
-import { Image, SafeAreaView, ScrollView, Text, View } from "react-native";
-import CustomButton from "../components/CustomButton";
-import { images } from "../constants";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
+import { View, Text, Image, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import { images } from "../constants";
+import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 
-export default function Index() {
+const Welcome = () => {
   const { loading, isLogged } = useGlobalContext();
 
   if (!loading && isLogged) return <Redirect href="/home" />;
-  
+
   return (
-    <SafeAreaView className={"bg-primary h-full"}>
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <View className={"w-full justify-center items-center h-full px-4"}>
+    <SafeAreaView className="bg-primary h-full">
+      <Loader isLoading={loading} />
+
+      <ScrollView
+        contentContainerStyle={{
+          height: "100%",
+        }}
+      >
+        <View className="w-full flex justify-center items-center h-full px-4">
           <Image
             source={images.logo}
-            resizeMode="contain"
             className="w-[130px] h-[84px]"
+            resizeMode="contain"
           />
+
           <Image
             source={images.cards}
-            className={"max-w-[380px] w-full h-[300]"}
+            className="max-w-[380px] w-full h-[298px]"
             resizeMode="contain"
           />
-          <View className={"relative mt-5"}>
-            <Text className={"font-bold text-white text-center text-3xl"}>
-              Discover Endless Possibilities with{" "}
-              <Text className="text-secondary-100">Aora</Text>
+
+          <View className="relative mt-5">
+            <Text className="text-3xl text-white font-bold text-center">
+              Discover Endless{"\n"}
+              Possibilities with{" "}
+              <Text className="text-secondary-200">Aora</Text>
             </Text>
+
             <Image
               source={images.path}
+              className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
               resizeMode="contain"
-              className="w-[136] h-[15] absolute -bottom-2 -right-8"
             />
           </View>
-          <Text
-            className={"text-gray-100 text-sm mt-7 text-center font-pregular"}
-          >
-            Where creativity meets innovation: embark on a journey of limitless
-            exploration Aora
+
+          <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
+            Where Creativity Meets Innovation: Embark on a Journey of Limitless
+            Exploration with Aora
           </Text>
 
           <CustomButton
             title="Continue with Email"
             handlePress={() => router.push("/sign-in")}
-            containerStyles={"w-full mt-7"}
-            textStyles={{}}
-            isLoading={false}
+            containerStyles="w-full mt-7"
           />
         </View>
       </ScrollView>
+
       <StatusBar backgroundColor="#161622" style="light" />
     </SafeAreaView>
   );
-}
+};
+
+export default Welcome;
